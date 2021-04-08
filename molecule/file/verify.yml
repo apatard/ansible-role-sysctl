@@ -1,0 +1,21 @@
+---
+- name: Verify
+  hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Get net.ipv4.ip_forward value
+      command: sysctl -n net.ipv4.ip_forward
+      register: sysctl_ipforward
+    - name: Test net.ipv4.ip_forward value
+      assert:
+        that:
+          - sysctl_ipforward.stdout == "1"
+    - name: Get infos about /etc/sysctl.d/ipforward.conf
+      stat:
+        path: /etc/sysctl.d/ipforward.conf
+      register: sysctl_file
+    - name: Ensure sysctl file exists
+      assert:
+        that:
+          - sysctl_file.stat.exists

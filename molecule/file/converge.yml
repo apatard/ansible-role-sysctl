@@ -1,0 +1,12 @@
+---
+- name: converge
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: robertdebock.sysctl
+      sysctl_items:
+        - name: net.ipv4.ip_forward
+          file: /etc/sysctl.d/ipforward.conf
+          value: 1

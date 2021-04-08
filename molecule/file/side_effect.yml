@@ -1,0 +1,6 @@
+---
+- hosts: instance
+  become: yes
+  tasks:
+  - name: reboot VM
+    ansible.builtin.reboot:
